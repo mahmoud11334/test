@@ -135,7 +135,7 @@ p{
     <h1>صفحة اختبار الإعلانات</h1>
 
     <p>
-        اضغط على الزر لفتح إعلان والحصول على 5 عملات.
+        اضغط على الزر لفتح صفحة الإعلان.
     </p>
 
     <div class="coins">
@@ -145,8 +145,8 @@ p{
         <span>عملة</span>
     </div>
 
-    <button class="button" onclick="openRandomAd()">
-        شاهد الإعلان +5
+    <button class="button" onclick="openAd()">
+        شاهد الإعلان
     </button>
 
     <div class="status">
@@ -158,11 +158,7 @@ p{
 
 <script>
 
-const adLinks = [
-    "https://omg10.com/4/11676811",
-    "https://omg10.com/4/11676898",
-    "https://omg10.com/4/11676811"
-];
+const adLink = "https://omg10.com/4/11676811";
 
 let coins = Number(localStorage.getItem("coins")) || 0;
 
@@ -170,38 +166,14 @@ function updateCoins(){
     document.getElementById("coinBalance").textContent = coins;
 }
 
-function addCoins(amount){
-    coins += amount;
-    localStorage.setItem("coins", coins);
-    updateCoins();
-}
+function openAd(){
 
-function openRandomAd(){
-
-    const validLinks = adLinks.filter(link =>
-        link &&
-        link.startsWith("http")
-    );
-
-    if(validLinks.length === 0){
-        alert("لم يتم إضافة أي رابط إعلان.");
+    if(!adLink || !adLink.startsWith("http")){
+        alert("لم يتم إضافة رابط الإعلان.");
         return;
     }
 
-    const randomIndex = Math.floor(Math.random() * validLinks.length);
-    const selectedLink = validLinks[randomIndex];
-
-    const adWindow = window.open(
-        selectedLink,
-        "_blank",
-        "noopener,noreferrer"
-    );
-
-    if(adWindow){
-        addCoins(5);
-    }else{
-        alert("المتصفح منع فتح الإعلان. اسمح بالنوافذ المنبثقة وحاول مرة أخرى.");
-    }
+    window.location.href = adLink;
 }
 
 function updateTime(){
@@ -218,3 +190,4 @@ setInterval(updateTime,1000);
 
 </body>
 </html>
+
