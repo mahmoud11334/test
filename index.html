@@ -135,7 +135,7 @@ p{
     <h1>صفحة اختبار الإعلانات</h1>
 
     <p>
-        اضغط على الزر لفتح إعلان في نافذة جديدة.
+        اضغط على الزر لفتح إعلان والحصول على 5 عملات.
     </p>
 
     <div class="coins">
@@ -146,7 +146,7 @@ p{
     </div>
 
     <button class="button" onclick="openRandomAd()">
-        شاهد الإعلان
+        شاهد الإعلان +5
     </button>
 
     <div class="status">
@@ -160,8 +160,8 @@ p{
 
 const adLinks = [
     "https://omg10.com/4/11676811",
-    "https://omg10.com/4/11676811",
-    "https://omg10.com/4/11676898"
+    "https://omg10.com/4/11676898",
+    "https://omg10.com/4/11676811"
 ];
 
 let coins = Number(localStorage.getItem("coins")) || 0;
@@ -170,11 +170,17 @@ function updateCoins(){
     document.getElementById("coinBalance").textContent = coins;
 }
 
+function addCoins(amount){
+    coins += amount;
+    localStorage.setItem("coins", coins);
+    updateCoins();
+}
+
 function openRandomAd(){
 
     const validLinks = adLinks.filter(link =>
         link &&
-        !link.includes("ضع_الرابط")
+        link.startsWith("http")
     );
 
     if(validLinks.length === 0){
@@ -185,11 +191,17 @@ function openRandomAd(){
     const randomIndex = Math.floor(Math.random() * validLinks.length);
     const selectedLink = validLinks[randomIndex];
 
-    window.open(
+    const adWindow = window.open(
         selectedLink,
         "_blank",
         "noopener,noreferrer"
     );
+
+    if(adWindow){
+        addCoins(5);
+    }else{
+        alert("المتصفح منع فتح الإعلان. اسمح بالنوافذ المنبثقة وحاول مرة أخرى.");
+    }
 }
 
 function updateTime(){
@@ -199,6 +211,7 @@ function updateTime(){
 
 updateCoins();
 updateTime();
+
 setInterval(updateTime,1000);
 
 </script>
