@@ -66,6 +66,9 @@ p{
     text-decoration:none;
     font-weight:bold;
     transition:.25s;
+    cursor:pointer;
+    border:none;
+    font-size:16px;
 }
 
 .button:hover{
@@ -97,13 +100,12 @@ p{
     <h1>صفحة اختبار الإعلانات</h1>
 
     <p>
-        هذه الصفحة مخصصة لاختبار دمج الإعلانات
-        والتحقق من عملها على الموقع.
+        اضغط على الزر لفتح إعلان في نافذة جديدة.
     </p>
 
-    <a href="#" class="button" onclick="testClick(event)">
-        زر تجريبي
-    </a>
+    <button class="button" onclick="openRandomAd()">
+        شاهد الإعلان
+    </button>
 
     <div class="status">
         الصفحة تعمل بشكل طبيعي — وقت الزيارة:
@@ -112,18 +114,44 @@ p{
 </div>
 
 <script>
+
+const adLinks = [
+    "https://omg10.com/4/11676881",
+    "https://omg10.com/4/11676811",
+    "https://omg10.com/4/11676898",
+
+];
+
+function openRandomAd(){
+
+    const validLinks = adLinks.filter(link =>
+        link &&
+        !link.includes("ضع_الرابط")
+    );
+
+    if(validLinks.length === 0){
+        alert("لم يتم إضافة أي رابط إعلان.");
+        return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * validLinks.length);
+    const selectedLink = validLinks[randomIndex];
+
+    window.open(
+        selectedLink,
+        "_blank",
+        "noopener,noreferrer"
+    );
+}
+
 function updateTime(){
     document.getElementById("time").textContent =
         new Date().toLocaleTimeString("ar-EG");
 }
 
-function testClick(e){
-    e.preventDefault();
-    alert("الزر التجريبي يعمل بنجاح");
-}
-
 updateTime();
 setInterval(updateTime,1000);
+
 </script>
 
 </body>
